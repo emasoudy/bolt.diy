@@ -30,7 +30,14 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     command: pnpm run dockerstart
-    # REMOVE the profiles line here!
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.bolt.rule=Host(`bolt.emasoudy.com`)"
+      - "traefik.http.routers.bolt.entrypoints=websecure"
+      - "traefik.http.routers.bolt.tls=true"
+      - "traefik.http.services.bolt.loadbalancer.server.port=5173"
+      - "traefik.http.routers.bolt.middlewares=bolt-auth"
+      - "traefik.http.middlewares.bolt-auth.basicauth.users=emasoudy:$2y$05$iiOwbIT7IsEyydgpnh4bdugYwrE5pjNc1CewBrK0LbBqKjC6avXgu"
 
   app-dev:
     image: bolt-ai:development
