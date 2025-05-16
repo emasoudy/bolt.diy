@@ -30,8 +30,7 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     command: pnpm run dockerstart
-    profiles:
-      - production
+    # REMOVE the profiles line here!
 
   app-dev:
     image: bolt-ai:development
